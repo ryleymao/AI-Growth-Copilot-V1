@@ -1,0 +1,12 @@
+user interface: similar to LLM
+button to start speeking to the ai (start, stop)
+text box in order to text the ai (enter button) 
+
+
+AI bot (try to implement a voice with it)
+
+generate
+roadmap + progression tracker
+skills
+subskills
+

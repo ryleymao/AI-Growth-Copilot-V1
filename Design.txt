@@ -3,10 +3,14 @@ button to start speeking to the ai (start, stop)
 text box in order to text the ai (enter button) 
 
 
-AI bot (try to implement a voice with it)
+AI bot handels input, and will ask for more information (response) or generate a response (try to implement a voice with it)
 
-generate
-roadmap + progression tracker
-skills
-subskills
+
+generate the roadmap
+create a progression tracker (AI bot will be able to check off certain skills if mentioned by the user)
+this means the bot and the user will be able to adjust the progression 
+skills (all of the skills or goals user are trying to achieve displayed in a scrollable)
+subskills displayed when the user clicks on the skill they are trying to access
+progression tracker: user will check off subskills when they complete them, this will automatically increase the progression tracker
+goal completed celebratory screen and achived into their completed section
 

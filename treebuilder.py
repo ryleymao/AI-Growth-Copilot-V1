@@ -102,3 +102,13 @@ class TreeMap:
             result.append(root.key)
             self.inorderTraversal(root.right, result)
             
+    def contains(self, key: int) -> bool:
+        current = self.root
+        while current is not None:
+            if key < current.key:
+                current = current.left
+            elif key > current.key:
+                current = current.right
+            else:
+                return True
+        return False

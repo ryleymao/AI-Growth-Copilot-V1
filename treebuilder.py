@@ -112,3 +112,32 @@ class TreeMap:
             else:
                 return True
         return False
+    
+    def size(self) -> int:
+        def count_nodes(node):
+            if node is None:
+                return 0
+            return 1 + count_nodes(node.left) + count_nodes(node.right)
+        return count_nodes(self.root)
+
+    
+    def height(self) -> int:
+        def node_height(node):
+            if node is None:
+                return 0
+            return 1 + max(node_height(node.left), node_height(node.right))
+        return node_height(self.root)
+
+
+print("Tree size:", t.size())  # should print 3
+
+if __name__ == "__main__":
+    t = TreeMap()
+    t.insert(5, "root")
+    t.insert(3, "left")
+    t.insert(7, "right")
+
+    print("Contains 5?", t.contains(5))  # should print True
+    print("Contains 4?", t.contains(4))  # should print False
+
+print("Tree height:", t.height())  # should print 2 for this tree

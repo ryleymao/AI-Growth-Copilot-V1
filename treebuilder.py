@@ -120,7 +120,15 @@ class TreeMap:
             return 1 + count_nodes(node.left) + count_nodes(node.right)
         return count_nodes(self.root)
 
-    
+    def printInorder(self) -> None:
+        def inorder(node):
+            if node is not None:
+                inorder(node.left)
+                print(node.key, end=" ")
+                inorder(node.right)
+        inorder(self.root)
+        print()  # newline at the end
+
     def height(self) -> int:
         def node_height(node):
             if node is None:
@@ -137,7 +145,10 @@ if __name__ == "__main__":
     t.insert(3, "left")
     t.insert(7, "right")
 
-    print("Contains 5?", t.contains(5))  # should print True
-    print("Contains 4?", t.contains(4))  # should print False
+print("Contains 5?", t.contains(5))  # should print True
+print("Contains 4?", t.contains(4))  # should print False
 
 print("Tree height:", t.height())  # should print 2 for this tree
+
+print("Inorder traversal of tree:")
+t.printInorder()  # should print: 3 5 7

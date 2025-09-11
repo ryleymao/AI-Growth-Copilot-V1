@@ -1,107 +1,109 @@
-from typing import List
+from __future__ import annotations
+from typing import Optional, List
 
-# Binary Search Tree Node
-my_list = [1, 2, 3, 4, 5]
 
 class TreeNode:
-    def __init__(self, key: int, val: int):
-        self.key = key
+    def __init__(self, key: int, val):
+        self.key: int = key
         self.val = val
-        self.left = None
-        self.right = None
+        self.left: Optional["TreeNode"] = None
+        self.right: Optional["TreeNode"] = None
 
-# Implementation for Binary Search Tree Map
+
 class TreeMap:
     def __init__(self):
-        self.root = None
+        self.root: Optional[TreeNode] = None
 
-    def insert(self, key: int, val: int) -> None:
-        newNode = TreeNode(key, val)
-        if self.root == None:
-            self.root = newNode
+    def insert(self, key: int, val) -> None:
+        """Insert or update key->val."""
+        if self.root is None:
+            self.root = TreeNode(key, val)
             return
 
-        current = self.root
+        curr = self.root
         while True:
-            if key < current.key:
-                if current.left == None:
-                    current.left = newNode
+            if key < curr.key:
+                if curr.left is None:
+                    curr.left = TreeNode(key, val)
                     return
-                current = current.left
-            elif key > current.key:
-                if current.right == None:
-                    current.right = newNode
+                curr = curr.left
+            elif key > curr.key:
+                if curr.right is None:
+                    curr.right = TreeNode(key, val)
                     return
-                current = current.right
+                curr = curr.right
             else:
-                current.val = val
+                # update value if key already exists
+                curr.val = val
                 return
 
-    def get(self, key: int) -> int:
-        current = self.root
-        while current != None:
-            if key < current.key:
-                current = current.left
-            elif key > current.key:
-                current = current.right
+    def get(self, key: int):
+        """Return value for key or None if not found."""
+        curr = self.root
+        while curr is not None:
+            if key < curr.key:
+                curr = curr.left
+            elif key > curr.key:
+                curr = curr.right
             else:
-                return current.val
-        return -1
+                return curr.val
+        return None
 
-    def getMin(self) -> int:
-        current = self.findMin(self.root)
-        return current.val if current else -1
-
-    # Returns the node with the minimum key in the subtree
-    def findMin(self, node: TreeNode) -> TreeNode:
-        while node and node.left:
-            node = node.left
-        return node
-
-    def getMax(self) -> int:
-        current = self.root
-        while current and current.right:
-            current = current.right
-        return current.val if current else -1
-    
     def remove(self, key: int) -> None:
-        self.root = self.removeHelper(self.root, key)
+        """Remove key if present."""
+        self.root = self._remove_helper(self.root, key)
 
-    # Returns the new root of the subtree after removing the key
-    def removeHelper(self, curr: TreeNode, key: int) -> TreeNode:
-        if curr == None:
+    def _remove_helper(self, node: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+        if node is None:
             return None
 
-        if key > curr.key:
-            curr.right = self.removeHelper(curr.right, key)
-        elif key < curr.key:
-            curr.left = self.removeHelper(curr.left, key)
+        if key < node.key:
+            node.left = self._remove_helper(node.left, key)
+            return node
+        elif key > node.key:
+            node.right = self._remove_helper(node.right, key)
+            return node
         else:
-            if curr.left == None:
-                # Replace curr with right child
-                return curr.right
-            elif curr.right == None:
-                # Replace curr with left child
-                return curr.left
-            else:
-                # Swap curr with inorder successor
-                minNode = self.findMin(curr.right)
-                curr.key = minNode.key
-                curr.val = minNode.val
-                curr.right = self.removeHelper(curr.right, minNode.key)
+            # Key matches this node
+            if node.left is None and node.right is None:
+                return None
+            if node.left is None:
+                return node.right
+            if node.right is None:
+                return node.left
+            # Two children: replace with inorder successor (min of right)
+            min_node = self._min_node(node.right)
+            node.key, node.val = min_node.key, min_node.val
+            node.right = self._remove_helper(node.right, min_node.key)
+            return node
+
+    def _min_node(self, node: TreeNode) -> TreeNode:
+        curr = node
+        while curr.left is not None:
+            curr = curr.left
         return curr
 
     def getInorderKeys(self) -> List[int]:
-        result = []
-        self.inorderTraversal(self.root, result)
+        result: List[int] = []
+        self._inorder(self.root, result)
         return result
 
-    def inorderTraversal(self, root: TreeNode, result: List[int]) -> None:
-        if root != None:
-            self.inorderTraversal(root.left, result)
-            result.append(root.key)
-            self.inorderTraversal(root.right, result)
-            
+    def _inorder(self, node: Optional[TreeNode], out: List[int]) -> None:
+        if node is not None:
+            self._inorder(node.left, out)
+            out.append(node.key)
+            self._inorder(node.right, out)
+
+    def printInorder(self) -> None:
+        """Print keys in sorted order on one line."""
+        def inorder(n: Optional[TreeNode]) -> None:
+            if n is not None:
+                inorder(n.left)
+                print(n.key, end=" ")
+                inorder(n.right)
+        inorder(self.root)
+        print()
+
     def contains(self, key: int) -> bool:
         current = self.root
         while current is not None:
@@ -112,32 +114,31 @@ class TreeMap:
             else:
                 return True
         return False
-    
+
     def size(self) -> int:
-        def count_nodes(node):
+        def count_nodes(node: Optional[TreeNode]) -> int:
             if node is None:
                 return 0
             return 1 + count_nodes(node.left) + count_nodes(node.right)
         return count_nodes(self.root)
 
-    def printInorder(self) -> None:
-        def inorder(node):
-            if node is not None:
-                inorder(node.left)
-                print(node.key, end=" ")
-                inorder(node.right)
-        inorder(self.root)
-        print()  # newline at the end
-
     def height(self) -> int:
-        def node_height(node):
+        def node_height(node: Optional[TreeNode]) -> int:
             if node is None:
                 return 0
             return 1 + max(node_height(node.left), node_height(node.right))
         return node_height(self.root)
 
+    def isEmpty(self) -> bool:
+        return self.root is None
 
-print("Tree size:", t.size())  # should print 3
+    def minKey(self) -> Optional[int]:
+        if self.root is None:
+            return None
+        curr = self.root
+        while curr.left is not None:
+            curr = curr.left
+        return curr.key
 
 if __name__ == "__main__":
     t = TreeMap()
@@ -145,10 +146,12 @@ if __name__ == "__main__":
     t.insert(3, "left")
     t.insert(7, "right")
 
-print("Contains 5?", t.contains(5))  # should print True
-print("Contains 4?", t.contains(4))  # should print False
+    print("Contains 5?", t.contains(5))   # True
+    print("Contains 4?", t.contains(4))   # False
+    print("Tree size:", t.size())         # 3
+    print("Tree height:", t.height())     # 2
+    print("Is tree empty?", t.isEmpty())  # False
+    print("Inorder traversal:")
+    t.printInorder()                      # 3 5 7
 
-print("Tree height:", t.height())  # should print 2 for this tree
-
-print("Inorder traversal of tree:")
-t.printInorder()  # should print: 3 5 7
+    print("Min key:", t.minKey())  # should print 3 with current inserts

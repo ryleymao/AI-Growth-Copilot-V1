@@ -33,7 +33,6 @@ class TreeMap:
                     return
                 curr = curr.right
             else:
-                # update value if key already exists
                 curr.val = val
                 return
 
@@ -64,14 +63,12 @@ class TreeMap:
             node.right = self._remove_helper(node.right, key)
             return node
         else:
-            # Key matches this node
             if node.left is None and node.right is None:
                 return None
             if node.left is None:
                 return node.right
             if node.right is None:
                 return node.left
-            # Two children: replace with inorder successor (min of right)
             min_node = self._min_node(node.right)
             node.key, node.val = min_node.key, min_node.val
             node.right = self._remove_helper(node.right, min_node.key)
@@ -140,18 +137,27 @@ class TreeMap:
             curr = curr.left
         return curr.key
 
+    def maxKey(self) -> Optional[int]:
+        if self.root is None:
+            return None
+        curr = self.root
+        while curr.right is not None:
+            curr = curr.right
+        return curr.key
+
+
 if __name__ == "__main__":
     t = TreeMap()
     t.insert(5, "root")
     t.insert(3, "left")
     t.insert(7, "right")
 
-    print("Contains 5?", t.contains(5))   # True
-    print("Contains 4?", t.contains(4))   # False
-    print("Tree size:", t.size())         # 3
-    print("Tree height:", t.height())     # 2
-    print("Is tree empty?", t.isEmpty())  # False
+    print("Contains 5?", t.contains(5))
+    print("Contains 4?", t.contains(4))
+    print("Tree size:", t.size())
+    print("Tree height:", t.height())
+    print("Is tree empty?", t.isEmpty())
     print("Inorder traversal:")
-    t.printInorder()                      # 3 5 7
-
-    print("Min key:", t.minKey())  # should print 3 with current inserts
+    t.printInorder()
+    print("Min key:", t.minKey())
+    print("Max key:", t.maxKey())

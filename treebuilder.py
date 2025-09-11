@@ -145,7 +145,7 @@ class TreeMap:
             curr = curr.right
         return curr.key
 
-
+#tests
 if __name__ == "__main__":
     t = TreeMap()
     t.insert(5, "root")

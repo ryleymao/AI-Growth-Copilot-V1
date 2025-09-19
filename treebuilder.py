@@ -55,7 +55,6 @@ class TreeMap:
     def _remove_helper(self, node: Optional[TreeNode], key: int) -> Optional[TreeNode]:
         if node is None:
             return None
-
         if key < node.key:
             node.left = self._remove_helper(node.left, key)
             return node
@@ -145,7 +144,29 @@ class TreeMap:
             curr = curr.right
         return curr.key
 
-# tests for proper functioning
+    def depth(self, key: int) -> Optional[int]:
+        curr = self.root
+        d = 1
+        while curr is not None:
+            if key < curr.key:
+                curr = curr.left
+            elif key > curr.key:
+                curr = curr.right
+            else:
+                return d
+            d += 1
+        return None
+
+    def countLeaves(self) -> int:
+        def leaves(node: Optional[TreeNode]) -> int:
+            if node is None:
+                return 0
+            if node.left is None and node.right is None:
+                return 1
+            return leaves(node.left) + leaves(node.right)
+        return leaves(self.root)
+
+
 if __name__ == "__main__":
     t = TreeMap()
     t.insert(5, "root")
@@ -161,3 +182,8 @@ if __name__ == "__main__":
     t.printInorder()
     print("Min key:", t.minKey())
     print("Max key:", t.maxKey())
+    print("Depth of 5:", t.depth(5))
+    print("Depth of 3:", t.depth(3))
+    print("Depth of 7:", t.depth(7))
+    print("Depth of 10:", t.depth(10))
+    print("Leaf count:", t.countLeaves())

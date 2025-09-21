@@ -4,6 +4,7 @@ from typing import Optional, List
 
 class TreeNode:
     def __init__(self, key: int, val):
+        """Node for a binary search tree."""
         self.key: int = key
         self.val = val
         self.left: Optional["TreeNode"] = None
@@ -12,10 +13,11 @@ class TreeNode:
 
 class TreeMap:
     def __init__(self):
+        """Map-like BST keyed by integers."""
         self.root: Optional[TreeNode] = None
 
     def insert(self, key: int, val) -> None:
-        """Insert or update key->val."""
+        """Insert key with value or update existing."""
         if self.root is None:
             self.root = TreeNode(key, val)
             return
@@ -53,6 +55,7 @@ class TreeMap:
         self.root = self._remove_helper(self.root, key)
 
     def _remove_helper(self, node: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+        """Recursive helper to remove a key."""
         if node is None:
             return None
         if key < node.key:
@@ -74,17 +77,20 @@ class TreeMap:
             return node
 
     def _min_node(self, node: TreeNode) -> TreeNode:
+        """Return the left-most node under node."""
         curr = node
         while curr.left is not None:
             curr = curr.left
         return curr
 
     def getInorderKeys(self) -> List[int]:
+        """Return all keys in sorted (inorder) order."""
         result: List[int] = []
         self._inorder(self.root, result)
         return result
 
     def _inorder(self, node: Optional[TreeNode], out: List[int]) -> None:
+        """Inorder traversal collecting keys into out."""
         if node is not None:
             self._inorder(node.left, out)
             out.append(node.key)
@@ -101,6 +107,7 @@ class TreeMap:
         print()
 
     def contains(self, key: int) -> bool:
+        """Return True if key exists in the tree."""
         current = self.root
         while current is not None:
             if key < current.key:
@@ -112,6 +119,7 @@ class TreeMap:
         return False
 
     def size(self) -> int:
+        """Return the number of nodes in the tree."""
         def count_nodes(node: Optional[TreeNode]) -> int:
             if node is None:
                 return 0
@@ -119,6 +127,7 @@ class TreeMap:
         return count_nodes(self.root)
 
     def height(self) -> int:
+        """Return the height (max depth) of the tree; empty is 0."""
         def node_height(node: Optional[TreeNode]) -> int:
             if node is None:
                 return 0
@@ -126,9 +135,11 @@ class TreeMap:
         return node_height(self.root)
 
     def isEmpty(self) -> bool:
+        """Return True if the tree has no nodes."""
         return self.root is None
 
     def minKey(self) -> Optional[int]:
+        """Return smallest key or None if empty."""
         if self.root is None:
             return None
         curr = self.root
@@ -137,6 +148,7 @@ class TreeMap:
         return curr.key
 
     def maxKey(self) -> Optional[int]:
+        """Return largest key or None if empty."""
         if self.root is None:
             return None
         curr = self.root
@@ -145,6 +157,7 @@ class TreeMap:
         return curr.key
 
     def depth(self, key: int) -> Optional[int]:
+        """Return 1-based depth of key or None if not found."""
         curr = self.root
         d = 1
         while curr is not None:
@@ -158,6 +171,7 @@ class TreeMap:
         return None
 
     def countLeaves(self) -> int:
+        """Return the number of leaf nodes."""
         def leaves(node: Optional[TreeNode]) -> int:
             if node is None:
                 return 0

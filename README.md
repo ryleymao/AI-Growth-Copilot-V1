@@ -17,3 +17,22 @@ The issue it solves is that people often time want something, but they dont know
 This is a chat bot, 
 orgainizer,
 and copilot
+
+# AI Growth Copilot (TreeMap Demo)
+
+This project includes a simple `TreeMap` (binary search tree) in Python.
+
+## Usage
+
+```python
+from treebuilder import TreeMap
+
+t = TreeMap()
+t.insert(5, "root")
+t.insert(3, "left")
+t.insert(7, "right")
+
+print(t.contains(5))        # True
+print(t.minKey())           # 3
+print(t.maxKey())           # 7
+print(t.getInorderKeys())   # [3, 5, 7]

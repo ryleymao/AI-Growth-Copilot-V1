@@ -232,4 +232,4 @@ if __name__ == "__main__":
     print("Keys in [4,6]:", t.keysInRange(4, 6))
     print("Successor of 3:", t.successor(3))  # 5
     print("Successor of 5:", t.successor(5))  # 7
-    print("Successor of 7:", t.successor(7))  # None
+    print("Successor of 7:", t.successor(7))  # none

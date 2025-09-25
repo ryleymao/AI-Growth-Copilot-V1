@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Optional, List
 
-
+# Structure for Nodes
 class TreeNode:
     def __init__(self, key: int, val):
         """Node for a binary search tree."""
@@ -10,7 +10,7 @@ class TreeNode:
         self.left: Optional["TreeNode"] = None
         self.right: Optional["TreeNode"] = None
 
-
+# Tree Graph Structure and Logic
 class TreeMap:
     def __init__(self):
         """Map-like BST keyed by integers."""

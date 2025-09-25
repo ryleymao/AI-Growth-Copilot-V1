@@ -180,6 +180,21 @@ class TreeMap:
             return leaves(node.left) + leaves(node.right)
         return leaves(self.root)
 
+    def keysInRange(self, low: int, high: int) -> List[int]:
+        """Return sorted keys in [low, high]."""
+        res: List[int] = []
+        def dfs(node: Optional[TreeNode]) -> None:
+            if node is None:
+                return
+            if node.key > low:
+                dfs(node.left)
+            if low <= node.key <= high:
+                res.append(node.key)
+            if node.key < high:
+                dfs(node.right)
+        dfs(self.root)
+        return res
+
 
 if __name__ == "__main__":
     t = TreeMap()
@@ -201,3 +216,5 @@ if __name__ == "__main__":
     print("Depth of 7:", t.depth(7))
     print("Depth of 10:", t.depth(10))
     print("Leaf count:", t.countLeaves())
+    print("Keys in [3,7]:", t.keysInRange(3, 7))
+    print("Keys in [4,6]:", t.keysInRange(4, 6))

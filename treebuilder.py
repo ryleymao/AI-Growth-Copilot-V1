@@ -195,6 +195,18 @@ class TreeMap:
         dfs(self.root)
         return res
 
+    def successor(self, key: int) -> Optional[int]:
+        """Return the smallest key > key, or None if none exists."""
+        curr = self.root
+        succ: Optional[int] = None
+        while curr is not None:
+            if key < curr.key:
+                succ = curr.key
+                curr = curr.left
+            else:
+                curr = curr.right
+        return succ
+
 
 if __name__ == "__main__":
     t = TreeMap()
@@ -218,3 +230,6 @@ if __name__ == "__main__":
     print("Leaf count:", t.countLeaves())
     print("Keys in [3,7]:", t.keysInRange(3, 7))
     print("Keys in [4,6]:", t.keysInRange(4, 6))
+    print("Successor of 3:", t.successor(3))  # 5
+    print("Successor of 5:", t.successor(5))  # 7
+    print("Successor of 7:", t.successor(7))  # None

@@ -36,4 +36,4 @@ print(t.contains(5))        # True
 print(t.minKey())           # 3
 print(t.maxKey())           # 7
 print(t.getInorderKeys())   # [3, 5, 7]
-print(t.keysInRange(3, 7))  # [3, 5, 7]
+print(t.keysInRange(4, 7))  # [3, 5, 7]
